@@ -1,0 +1,7 @@
+{
+  "name": "PeM",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

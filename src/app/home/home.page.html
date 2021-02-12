@@ -1,0 +1,31 @@
+<ion-content>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>P & M</ion-title>
+      <ion-buttons slot="primary">
+        <ion-button color="secondary"(click)="takePhoto()">
+          <ion-icon name="camera" slot="icon-only"></ion-icon>
+        </ion-button>
+
+        <ion-button color="secondary" (click)="galleryPhoto()">
+          <ion-icon name="image" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-content>
+      <ion-list *ngFor="let foto of fotos">
+        <ion-card>
+          <ion-card-title>
+            <ion-label>{{foto.instante | date: 'MM/dd/yyyy'}}</ion-label>
+            <ion-icon (click)="removerFoto(foto.id)" name="trash" item-end color="danger"></ion-icon>
+          </ion-card-title>
+          <ion-card-content><img style="max-width: 300px; max-height: 400px;" [src]="foto.imageUrl" /></ion-card-content>
+        </ion-card>
+      </ion-list>
+    </ion-content>
+  </ion-content>
+</ion-content>
