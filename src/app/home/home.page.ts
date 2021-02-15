@@ -3,6 +3,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { Imagem } from './img.model';
 import { ImgService } from './img.service'
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -61,9 +62,6 @@ export class HomePage implements OnInit {
   }
 
   adicionarFoto(foto) {
-    console.log(this.img);
-
-
     this.imgService.uploadImg(this.img).subscribe(response => {
       this.toastController.create({
         message: 'Foto salva!',
@@ -114,12 +112,6 @@ export class HomePage implements OnInit {
   carregarFotos() {
     this.imgService.findAllImage().subscribe(response => {
       this.fotos = response;
-
-      for(let foto of response){
-
-        console.log(foto.instante.toISOString());
-      }
-
     })
   }
 }

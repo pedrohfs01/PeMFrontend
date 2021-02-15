@@ -20,7 +20,7 @@
       <ion-list *ngFor="let foto of fotos">
         <ion-card>
           <ion-card-title>
-            <ion-label>{{foto.instante | date: 'MM/dd/yyyy'}}</ion-label>
+            <ion-label>Data: {{foto.instante}}</ion-label>
             <ion-icon (click)="removerFoto(foto.id)" name="trash" item-end color="danger"></ion-icon>
           </ion-card-title>
           <ion-card-content><img style="max-width: 300px; max-height: 400px;" [src]="foto.imageUrl" /></ion-card-content>
