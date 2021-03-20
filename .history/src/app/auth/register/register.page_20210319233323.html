@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-button color="light" (click)="voltar()">
+    <ion-icon name="arrow-back"></ion-icon>
+  </ion-button>
+</ion-header>
+
+<ion-content color="dark" class="ion-padding">
+
+  <form>
+    <div class="input-group">
+      <ion-toolbar>
+        <ion-title size="large">Registrar conta</ion-title>
+      </ion-toolbar>
+
+      <ion-item>
+        <ion-label position="floating">Nome*</ion-label>
+        <ion-input type="text"></ion-input>
+        <p class="danger">Valor inválido</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Login*</ion-label>
+        <ion-input type="text"></ion-input>
+        <p class="danger" margin-left>Valor inválido</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Senha*</ion-label>
+        <ion-input type="password"></ion-input>
+        <p class="danger" margin-left>Valor inválido</p>
+      </ion-item>
+
+
+    </div>
+    <ion-button (click)="cadastrar()" color="medium" expand="full">Cadastrar</ion-button>
+  </form>
+
+</ion-content>

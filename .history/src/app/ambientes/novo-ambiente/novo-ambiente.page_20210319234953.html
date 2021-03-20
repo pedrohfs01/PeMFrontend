@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="medium">
+  <ion-buttons slot="start">
+    <ion-button (click)="voltar()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+    <ion-title>Cadastrar Ambiente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="secondary" class="ion-padding">
+  <form>
+    <div class="input-group">
+      <ion-item>
+        <ion-label position="floating">Nome*</ion-label>
+        <ion-input type="text"></ion-input>
+        <p class="danger">Valor inválido</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Descrição*</ion-label>
+        <ion-input type="text"></ion-input>
+        <p class="danger" margin-left>Valor inválido</p>
+      </ion-item>
+    </div>
+    <ion-button (click)="criarAmbiente()" color="medium" expand="full">Novo</ion-button>
+  </form>
+
+</ion-content>
