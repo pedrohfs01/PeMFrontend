@@ -1,31 +1,76 @@
-<ion-content>
+<ion-menu contentId="content1" side="start">
   <ion-header>
-    <ion-toolbar>
-      <ion-title>P & M</ion-title>
-      <ion-buttons slot="primary">
-        <ion-button color="secondary"(click)="takePhoto()">
-          <ion-icon name="camera" slot="icon-only"></ion-icon>
-        </ion-button>
-
-        <ion-button color="secondary" (click)="galleryPhoto()">
-          <ion-icon name="image" slot="icon-only"></ion-icon>
+    <ion-toolbar color="medium">
+      <ion-title>P e M Moments</ion-title>
+      <ion-buttons slot="start">
+        <ion-button (click)="voltarAmbiente()">
+          <ion-icon name="arrow-back"></ion-icon>
         </ion-button>
       </ion-buttons>
-
     </ion-toolbar>
   </ion-header>
-
-  <ion-content>
-    <ion-content>
-      <ion-list *ngFor="let foto of fotos">
-        <ion-card>
-          <ion-card-title>
-            <ion-label>Data: {{foto.instante}}</ion-label>
-            <ion-icon (click)="removerFoto(foto.id)" name="trash" item-end color="danger"></ion-icon>
-          </ion-card-title>
-          <ion-card-content><img style="max-width: 300px; max-height: 400px;" [src]="foto.imageUrl" /></ion-card-content>
-        </ion-card>
-      </ion-list>
-    </ion-content>
+  <ion-content color="dark">
+    <ion-list>
+      <ion-item (click)="gerenciarPessoas()">
+        <ion-icon name="people"></ion-icon>
+        Pessoas
+      </ion-item>
+      <ion-item *ngIf="ambiente?.criador?.id === usuario?.id" (click)="excluirAmbiente()">
+        <ion-icon name="trash"></ion-icon>
+        Excluir ambiente
+      </ion-item>
+    </ion-list>
   </ion-content>
+</ion-menu>
+
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-buttons>
+        <ion-menu-button autoHide="false"></ion-menu-button>
+      </ion-buttons>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button color="secondary" (click)="carregarFotos()">
+        <ion-icon name="refresh"></ion-icon>
+      </ion-button>
+      <ion-button color="secondary" (click)="takePhoto()">
+        <ion-icon name="camera" slot="icon-only"></ion-icon>
+      </ion-button>
+
+      <ion-button color="secondary" (click)="galleryPhoto()">
+        <ion-icon name="image" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="content1" class="ion-padding">
+  <ion-list *ngFor="let foto of fotos">
+    <ion-card>
+      <ion-card-title>
+        <ion-item>
+          <ion-text>
+            <h6>Data: {{foto.instante}}</h6>
+          </ion-text>
+          <ion-icon (click)="removerFoto(foto.id)" name="trash" slot="end" color="danger"></ion-icon>
+        </ion-item>
+      </ion-card-title>
+      <ion-card-content>
+        <ion-img [src]="foto.imageUrl"></ion-img>
+      </ion-card-content>
+      <ion-item>
+        <ion-text>
+          <h5 style="color: darkslategray;">{{foto.legenda}}</h5>
+        </ion-text>
+        <ion-text slot="end">
+          <h6>Autor: <span style="color:tomato;">{{foto.autor.nome}}</span></h6>
+        </ion-text>
+      </ion-item>
+      <ion-item>
+
+      </ion-item>
+    </ion-card>
+  </ion-list>
 </ion-content>

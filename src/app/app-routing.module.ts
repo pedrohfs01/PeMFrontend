@@ -3,8 +3,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'imagens',
+    path: 'imagens/:id',
     loadChildren: () => import('./imagens/imagens.module').then( m => m.ImagensPageModule)
+  },
+  {
+    path: 'imagens/:id/gerenciar-usuarios',
+    loadChildren: () => import('./imagens/gerenciar-usuarios/gerenciar-usuarios.module').then( m => m.GerenciarUsuariosPageModule)
   },
   {
     path: '',

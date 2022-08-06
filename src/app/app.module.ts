@@ -11,14 +11,29 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ImgService } from './imagens/img.service';
 import { ImageUtilService } from './imagens/img-util.service';
+import { UsuarioService } from './auth/usuario.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { AmbienteService } from './ambientes/ambiente.service';
+import { StorageService } from './auth/storage.service';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule
+  ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ImgService,
     ImageUtilService,
+    UsuarioService,
+    AmbienteService,
+    StorageService,
     Camera
   ],
   bootstrap: [AppComponent],

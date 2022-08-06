@@ -1,6 +1,6 @@
 <ion-content color="dark" class="ion-padding">
 
-  <form>
+  <form [formGroup]="form" (ngSubmit)="login()">
 
     <div class="input-group">
     <ion-toolbar >
@@ -9,17 +9,16 @@
 
     <ion-item   lines="inset">
       <ion-label position="floating">Login</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-input formControlName="login" type="text"></ion-input>
     </ion-item>
 
     <ion-item  class="ion-no-border">
       <ion-label position="floating">Senha</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-input formControlName="senha" type="password"></ion-input>
     </ion-item>
     </div>
 
-    <ion-button (click)="login()" type="submit" share="round" color="primary" expand="block" >Login</ion-button>
-
-    <ion-button (click)="registrar()" type="button" expand="block" color="danger" class="button-group">Registre-se</ion-button>
+    <ion-button [disabled]="!form.valid" type="submit" share="round" color="primary" expand="block" >Login</ion-button>
   </form>
+  <ion-button (click)="registrar()" type="button" expand="block" color="danger" class="button-group">Registre-se</ion-button>
 </ion-content>

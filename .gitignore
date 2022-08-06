@@ -29,5 +29,6 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+/.history
 
 package-lock.json

@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-title>Pessoas</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="content2">
+  <ion-searchbar *ngIf="usuarioCriador?.login === usuarioLogado?.login" debounce="500" animated placeholder="Procurar usuários" (ionChange)="search($event)" #ionSearchBarComponent></ion-searchbar>
+  <ion-list>
+    <ion-card>
+      <ion-card-title>
+        <ion-item *ngFor="let usuarioIncluso of usuariosInclusos">
+          <ion-label><span *ngIf="usuarioCriador?.id === usuarioIncluso?.id" style="color: brown;">(Criador) </span>
+            {{usuarioIncluso.nome}}</ion-label>
+            <ion-buttons slot="end">
+            <ion-button *ngIf="usuarioCriador?.login === usuarioLogado?.login" (click)="deletarUsuario(usuarioIncluso)"><ion-icon name="trash" color="danger"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-card-title>
+    </ion-card>
+  </ion-list>
+  <ion-list>
+    <ion-card>
+      <ion-card-title>
+        <ion-item *ngFor="let usuario of usuarios">
+          <ion-label>{{usuario.nome}}</ion-label>
+            <ion-buttons slot="end">
+            <ion-button *ngIf="usuarioCriador?.login === usuarioLogado?.login" (click)="adicionarUsuario(usuario)"><ion-icon name="add-circle" color="primary"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-card-title>
+    </ion-card>
+  </ion-list>
+</ion-content>
