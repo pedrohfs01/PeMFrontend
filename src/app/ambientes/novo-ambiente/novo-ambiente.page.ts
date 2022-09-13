@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { Usuario } from 'src/app/auth/usuario.model';
-import { UsuarioService } from 'src/app/auth/usuario.service';
-import { Ambiente, AmbienteDTO } from '../ambiente.model';
-import { AmbienteService } from '../ambiente.service';
+import { Usuario } from 'src/app/models/usuario.model';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { AmbienteDTO } from '../../models/ambiente.model';
+import { AmbienteService } from '../../services/ambiente.service';
 
 @Component({
   selector: 'app-novo-ambiente',

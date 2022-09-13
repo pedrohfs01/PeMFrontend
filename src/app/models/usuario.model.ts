@@ -1,5 +1,6 @@
-import { Ambiente } from "../ambientes/ambiente.model";
-import { Imagem } from "../imagens/img.model";
+import { Ambiente } from "./ambiente.model";
+import { Imagem } from "./img.model";
+import { Comentario } from "./comentario.model";
 
 export class Usuario{
 
@@ -23,12 +24,4 @@ export class CredenciaisDTO{
 }
 
 
-export class Comentario{
 
-  id?: number;
-  comentario?: string;
-  instante?: Date;
-  autor?: Usuario;
-  imagem?: Imagem;
-
-}

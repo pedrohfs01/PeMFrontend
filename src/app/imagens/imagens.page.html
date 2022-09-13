@@ -54,7 +54,8 @@
           <ion-text>
             <h6>Data: {{foto.instante}}</h6>
           </ion-text>
-          <ion-icon (click)="removerFoto(foto.id)" name="trash" slot="end" color="danger"></ion-icon>
+          <ion-icon *ngIf="usuario?.login === foto?.autor?.login" (click)="removerFoto(foto.id)" name="trash" slot="end"
+            color="danger"></ion-icon>
         </ion-item>
       </ion-card-title>
       <ion-card-content>
@@ -65,23 +66,54 @@
           <h5 style="color: darkslategray;">{{foto.legenda}}</h5>
         </ion-text>
         <ion-text slot="end">
-          <h6>Autor: <span style="color:tomato;">{{foto.autor.nome}}</span></h6>
+          <ion-note>
+            Autor: <b>{{foto.autor.nome}}</b>
+          </ion-note>
         </ion-text>
       </ion-item>
-      <ion-item *ngIf="foto.showComments">
-        <ion-card *ngFor="let comment of foto.comentarios">
-          <ion-card-header> {{comment.autor}} </ion-card-header>
-          <ion-card-content> {{comment.comentario}} </ion-card-content>
-        </ion-card>
-      </ion-item>
+      <ion-list *ngIf="foto.showComments">
+        <ion-item *ngFor="let comment of foto.comentarios" lines="full">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="4">
+                <ion-note>
+                  <b>{{comment.autor.nome}}</b>
+                </ion-note>
+              </ion-col>
+              <ion-col>
+                <ion-note>
+                  Instante: <b>{{comment.instante}}</b>
+                </ion-note>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="10">
+                <ion-text>
+                  {{comment.comentario}}
+                </ion-text>
+              </ion-col>
+              <ion-col>
+                <ion-buttons end>
+                  <ion-button *ngIf="usuario?.login === comment?.autor?.login" (click)="deletarComentario(comment)"
+                    slot="end" icon-only>
+                    <ion-icon name="trash" color="danger"></ion-icon>
+                  </ion-button>
+                </ion-buttons>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
       <ion-item>
-        <ion-input [(ngModel)]="novoComentario.comentario" type="text"></ion-input>
+        <ion-input [(ngModel)]="novoComentario.comentario" type="text" placeholder="Digite seu comentário...">
+        </ion-input>
         <ion-buttons end>
-          <ion-button icon-only tooltip="Adicionar Comentário" navTooltip>
-            <ion-icon (click)="adicionarComentarioImagem()" name="send" slot="end"></ion-icon>>
+          <ion-button (click)="adicionarComentarioImagem(foto)" slot="end" icon-only title="Enviar comentário"
+            navTooltip>
+            <ion-icon name="send"></ion-icon>
           </ion-button>
-          <ion-button icon-only tooltip="Mostrar Comentários" navTooltip>
-            <ion-icon (click)="addCommentImage(foto)" name="chatbubbles" slot="end"></ion-icon>
+          <ion-button slot="end" (click)="mostrarComentarios(foto)" icon-only title="Mostrar Comentários" navTooltip>
+            <ion-icon name="chatbubbles"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-item>

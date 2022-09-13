@@ -1,10 +1,10 @@
-import { AfterContentInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ViewWillEnter } from '@ionic/angular';
-import { Usuario } from '../auth/usuario.model';
-import { UsuarioService } from '../auth/usuario.service';
-import { Ambiente } from './ambiente.model';
-import { AmbienteService } from './ambiente.service';
+import { Ambiente } from '../models/ambiente.model';
+import { Usuario } from '../models/usuario.model';
+import { AmbienteService } from '../services/ambiente.service';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-ambientes',

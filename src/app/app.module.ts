@@ -9,15 +9,16 @@ import { Camera } from '@ionic-native/camera/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ImgService } from './imagens/img.service';
-import { ImageUtilService } from './imagens/img-util.service';
-import { UsuarioService } from './auth/usuario.service';
+import { ImageUtilService } from './services/img-util.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AmbienteService } from './ambientes/ambiente.service';
-import { StorageService } from './auth/storage.service';
+import { AmbienteService } from './services/ambiente.service';
+import { StorageService } from './services/storage.service';
 import { TooltipsModule } from 'ionic4-tooltips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ImgService } from './services/img.service';
+import { UsuarioService } from './services/usuario.service';
+import { ComentarioService } from './services/comentario.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,7 +39,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     UsuarioService,
     AmbienteService,
     StorageService,
-    Camera
+    Camera,
+    ComentarioService
   ],
   bootstrap: [AppComponent],
 })

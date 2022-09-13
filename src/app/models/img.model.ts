@@ -1,5 +1,6 @@
-import { Ambiente } from "../ambientes/ambiente.model";
-import { Comentario, Usuario } from "../auth/usuario.model";
+import { Ambiente } from "./ambiente.model";
+import { Usuario } from "./usuario.model";
+import { Comentario } from "./comentario.model";
 
 export class Imagem{
   id?: number;

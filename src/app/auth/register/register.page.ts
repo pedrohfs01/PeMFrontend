@@ -1,10 +1,9 @@
-import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { Usuario } from '../usuario.model';
-import { UsuarioService } from '../usuario.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { Usuario } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-register',

@@ -1,5 +1,5 @@
-import { Usuario } from "../auth/usuario.model";
-import { Imagem } from "../imagens/img.model";
+import { Usuario } from "./usuario.model";
+import { Imagem } from "./img.model";
 
 export class Ambiente{
 

@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, MenuController, ToastController } from '@ionic/angular';
-import { Imagem, ImagemDTO } from './img.model';
-import { ImgService } from './img.service'
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UsuarioService } from '../auth/usuario.service';
-import { Comentario, Usuario } from '../auth/usuario.model';
-import { AmbienteService } from '../ambientes/ambiente.service';
-import { Ambiente } from '../ambientes/ambiente.model';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { AlertController, MenuController, ToastController, ViewWillEnter } from '@ionic/angular';
+import { Ambiente } from '../models/ambiente.model';
+import { Comentario, ComentarioSalvarDTO } from '../models/comentario.model';
+import { Imagem, ImagemDTO } from '../models/img.model';
+import { Usuario } from '../models/usuario.model';
+import { AmbienteService } from '../services/ambiente.service';
+import { ComentarioService } from '../services/comentario.service';
+import { ImgService } from '../services/img.service';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-imagens',
   templateUrl: 'imagens.page.html',
   styleUrls: ['imagens.page.scss'],
 })
-export class ImagensPage implements OnInit {
+export class ImagensPage implements OnInit, ViewWillEnter {
 
   fotos: Imagem[];
   img;
@@ -25,24 +26,26 @@ export class ImagensPage implements OnInit {
   usuario: Usuario;
   ambiente: Ambiente;
 
-  novoComentario: Comentario = new Comentario();
-
-
+  novoComentario: ComentarioSalvarDTO = new ComentarioSalvarDTO();
 
   constructor(private imgService: ImgService,
     private alertController: AlertController,
     private toastController: ToastController,
     private usuarioService: UsuarioService,
     private ambienteService: AmbienteService,
+    private comentarioService: ComentarioService,
     private camera: Camera,
     private menu: MenuController,
     private route: ActivatedRoute,
     private router: Router) {
   }
 
-  ngOnInit(): void {
+  ionViewWillEnter(): void {
     this.carregarFotos();
     this.carregarDados();
+  }
+
+  ngOnInit(): void {
   }
 
   takePhoto() {
@@ -76,8 +79,6 @@ export class ImagensPage implements OnInit {
     }, (err) => {
       this.mostrarMensagem("Erro ao tirar foto. Tente novamente.")
     });
-
-    this.camera.cleanup();
   }
 
   async adicionarFoto(foto) {
@@ -168,7 +169,6 @@ export class ImagensPage implements OnInit {
             });
           }
         }
-
       ]
     });
     await alert.present();
@@ -201,14 +201,52 @@ export class ImagensPage implements OnInit {
   }
 
 
-  addCommentImage(img: Imagem){
+  mostrarComentarios(img: Imagem){
     img.showComments = img.showComments == undefined ? true : !img.showComments;
-
-    this.novoComentario = new Comentario();
+    this.novoComentario = new ComentarioSalvarDTO();
   }
 
-  adicionarComentarioImagem(){
-    console.log(this.novoComentario);
-    
+  adicionarComentarioImagem(img: Imagem){
+    if(this.novoComentario && this.novoComentario.comentario && this.novoComentario.comentario.length > 5){
+      this.novoComentario.autorId = this.usuario.id;
+      this.novoComentario.imagemId = img.id;
+      this.comentarioService.salvar(this.novoComentario).subscribe(comentario => {
+        this.mostrarMensagem("Comentário enviado com sucesso.");
+        this.novoComentario = new ComentarioSalvarDTO();
+        img.showComments = true;
+      }, () => {}, 
+      () => {
+        this.carregarFotos();
+      })
+    }else{
+      this.mostrarMensagem("Comentário inválido. Escreva um comentário com mais de 5 caracteres.");
+    }    
+  }
+
+  async deletarComentario(comentario: Comentario){
+    let alert = await this.alertController.create({
+      header: "Confirmar",
+      message: "Confirma a exclusão do comentário?",
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+          }
+        }, {
+          text: "Confirmar",
+          handler: () => {
+            this.comentarioService.deleteById(comentario.id).subscribe(response => {
+              this.mostrarMensagem("Deletado com sucesso!");
+            }, () => {},
+            () => {
+              this.carregarFotos();
+            });
+          }
+        }
+
+      ]
+    });
+    await alert.present();
   }
 }

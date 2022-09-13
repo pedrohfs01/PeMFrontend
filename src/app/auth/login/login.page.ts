@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { StorageService } from '../storage.service';
-import { CredenciaisDTO, Usuario } from '../usuario.model';
-import { UsuarioService } from '../usuario.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { CredenciaisDTO } from '../../models/usuario.model';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-login',

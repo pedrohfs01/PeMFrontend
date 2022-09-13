@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { StorageService } from "./storage.service";
-import { CredenciaisDTO, Usuario } from "./usuario.model";
+import { CredenciaisDTO, Usuario } from "../models/usuario.model";
 
 @Injectable()
 export class UsuarioService {

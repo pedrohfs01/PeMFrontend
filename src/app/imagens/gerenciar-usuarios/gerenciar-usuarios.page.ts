@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonSearchbar, MenuController, ToastController, ViewWillEnter } from '@ionic/angular';
-import { AmbienteService } from 'src/app/ambientes/ambiente.service';
-import { StorageService } from 'src/app/auth/storage.service';
-import { Usuario } from 'src/app/auth/usuario.model';
-import { UsuarioService } from 'src/app/auth/usuario.service';
+import { AmbienteService } from 'src/app/services/ambiente.service';
+import { StorageService } from 'src/app/services/storage.service';
+import { Usuario } from 'src/app/models/usuario.model';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-gerenciar-usuarios',
