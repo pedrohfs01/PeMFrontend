@@ -2,8 +2,6 @@ import { Ambiente } from "../ambientes/ambiente.model";
 import { Comentario, Usuario } from "../auth/usuario.model";
 
 export class Imagem{
-
-
   id?: number;
   imageUrl?: string;
   legenda?: string;
@@ -11,6 +9,7 @@ export class Imagem{
   autor?: Usuario;
   ambiente?: Ambiente;
   comentarios?: Comentario[];
+  showComments?: boolean = false;
 }
 
 export class ImagemDTO{

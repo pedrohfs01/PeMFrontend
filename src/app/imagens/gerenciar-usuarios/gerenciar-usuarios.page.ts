@@ -36,8 +36,9 @@ export class GerenciarUsuariosPage implements OnInit, ViewWillEnter {
 
 
   ngOnInit() {
-    this.carregarUsuarios();
     this.usuarioLogado = this.storageService.getLocalUser();
+    this.carregarUsuarios();
+    
     this.menuController.close();
   }
 
@@ -52,6 +53,9 @@ export class GerenciarUsuariosPage implements OnInit, ViewWillEnter {
           if(this.ionSearchBarComponent?.value != undefined){
             this.ionSearchBarComponent.value = "";
           }
+          console.log(this.usuariosInclusos);
+          console.log(this.usuarioCriador);
+          console.log(this.usuarioLogado);          
         })
       }
     })

@@ -16,6 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AmbienteService } from './ambientes/ambiente.service';
 import { StorageService } from './auth/storage.service';
+import { TooltipsModule } from 'ionic4-tooltips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,7 +28,9 @@ import { StorageService } from './auth/storage.service';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    TooltipsModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ImgService,

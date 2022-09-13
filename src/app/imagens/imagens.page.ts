@@ -6,7 +6,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../auth/usuario.service';
-import { Usuario } from '../auth/usuario.model';
+import { Comentario, Usuario } from '../auth/usuario.model';
 import { AmbienteService } from '../ambientes/ambiente.service';
 import { Ambiente } from '../ambientes/ambiente.model';
 
@@ -24,6 +24,8 @@ export class ImagensPage implements OnInit {
   ambienteId: number;
   usuario: Usuario;
   ambiente: Ambiente;
+
+  novoComentario: Comentario = new Comentario();
 
 
 
@@ -74,6 +76,8 @@ export class ImagensPage implements OnInit {
     }, (err) => {
       this.mostrarMensagem("Erro ao tirar foto. Tente novamente.")
     });
+
+    this.camera.cleanup();
   }
 
   async adicionarFoto(foto) {
@@ -94,10 +98,11 @@ export class ImagensPage implements OnInit {
           this.imagemUpload.ambienteId = this.ambienteId;
           this.imagemUpload.autorId = this.usuario.id;
           this.imgService.uploadImg(this.img, this.imagemUpload).subscribe(response => {
-            this.mostrarMensagem("Imagem salva com sucesso!")
-            this.carregarFotos();
+            this.mostrarMensagem("Imagem salva com sucesso!");
           }, (error) => {
             this.mostrarMensagem("Erro ao fazer upload foto. Tente novamente.")
+          }, () => {
+            this.carregarFotos();
           })
         }
       }]
@@ -120,7 +125,9 @@ export class ImagensPage implements OnInit {
           text: "Confirmar",
           handler: () => {
             this.imgService.deleteImage(id).subscribe(response => {
-              this.mostrarMensagem("Deletado com sucesso!")
+              this.mostrarMensagem("Imagem deletada com sucesso!");
+            }, () => {},
+            () => {
               this.carregarFotos();
             });
           }
@@ -194,4 +201,14 @@ export class ImagensPage implements OnInit {
   }
 
 
+  addCommentImage(img: Imagem){
+    img.showComments = img.showComments == undefined ? true : !img.showComments;
+
+    this.novoComentario = new Comentario();
+  }
+
+  adicionarComentarioImagem(){
+    console.log(this.novoComentario);
+    
+  }
 }

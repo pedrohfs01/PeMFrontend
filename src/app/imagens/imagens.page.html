@@ -1,7 +1,7 @@
 <ion-menu contentId="content1" side="start">
   <ion-header>
     <ion-toolbar color="medium">
-      <ion-title>P e M Moments</ion-title>
+      <ion-title>Moments</ion-title>
       <ion-buttons slot="start">
         <ion-button (click)="voltarAmbiente()">
           <ion-icon name="arrow-back"></ion-icon>
@@ -68,8 +68,22 @@
           <h6>Autor: <span style="color:tomato;">{{foto.autor.nome}}</span></h6>
         </ion-text>
       </ion-item>
+      <ion-item *ngIf="foto.showComments">
+        <ion-card *ngFor="let comment of foto.comentarios">
+          <ion-card-header> {{comment.autor}} </ion-card-header>
+          <ion-card-content> {{comment.comentario}} </ion-card-content>
+        </ion-card>
+      </ion-item>
       <ion-item>
-
+        <ion-input [(ngModel)]="novoComentario.comentario" type="text"></ion-input>
+        <ion-buttons end>
+          <ion-button icon-only tooltip="Adicionar Comentário" navTooltip>
+            <ion-icon (click)="adicionarComentarioImagem()" name="send" slot="end"></ion-icon>>
+          </ion-button>
+          <ion-button icon-only tooltip="Mostrar Comentários" navTooltip>
+            <ion-icon (click)="addCommentImage(foto)" name="chatbubbles" slot="end"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-item>
     </ion-card>
   </ion-list>
