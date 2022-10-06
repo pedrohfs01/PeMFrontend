@@ -5,6 +5,8 @@ import { AmbienteService } from 'src/app/services/ambiente.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Usuario } from 'src/app/models/usuario.model';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { NotificacaoService } from 'src/app/services/notificacao.service';
+import { NotificacaoDTO, TipoNotificacao } from 'src/app/models/notificacao.model';
 
 @Component({
   selector: 'app-gerenciar-usuarios',
@@ -28,18 +30,23 @@ export class GerenciarUsuariosPage implements OnInit, ViewWillEnter {
     private usuarioService: UsuarioService,
     private storageService: StorageService,
     private toastController: ToastController,
+    private notificacaoService: NotificacaoService,
     private menuController: MenuController) { }
 
 
   ionViewWillEnter(): void {
+    this.carregarUsuarioLogado();
+    this.carregarUsuarios();
+    this.menuController.close();
   }
 
-
   ngOnInit() {
-    this.usuarioLogado = this.storageService.getLocalUser();
-    this.carregarUsuarios();
-    
-    this.menuController.close();
+  }
+  
+  carregarUsuarioLogado() {
+    this.usuarioService.getUsuarioLogado().subscribe(r => {
+      this.usuarioLogado = r;
+    })
   }
 
   carregarUsuarios(){
@@ -52,10 +59,7 @@ export class GerenciarUsuariosPage implements OnInit, ViewWillEnter {
           this.usuarioCriador = response.criador;
           if(this.ionSearchBarComponent?.value != undefined){
             this.ionSearchBarComponent.value = "";
-          }
-          console.log(this.usuariosInclusos);
-          console.log(this.usuarioCriador);
-          console.log(this.usuarioLogado);          
+          }       
         })
       }
     })
@@ -85,9 +89,23 @@ export class GerenciarUsuariosPage implements OnInit, ViewWillEnter {
 
   adicionarUsuario(usuario: Usuario){
     if(usuario.id != null){
-      this.usuarioService.adicionarUsuarioEmAmbiente(this.ambienteId, usuario).subscribe(response => {
-        this.carregarUsuarios();
-        this.mostrarMensagem("Usuário adicionado ao ambiente!");
+      let notificacao: NotificacaoDTO = new NotificacaoDTO();
+      notificacao.aceitavel = true;
+      notificacao.criadorId = this.usuarioLogado.id;
+      notificacao.usuarioNotificadoId = usuario.id;
+      notificacao.idObjeto = this.ambienteId;
+      notificacao.tipoNotificacao = TipoNotificacao.CONVITE;
+      notificacao.descricao = "O usuário "+this.usuarioLogado.nome+" te convidou para um ambiente, deseja aceitar? ";
+
+      this.notificacaoService.verificarSeExisteNotificacao(notificacao).subscribe(response => {
+        if(response == true){
+          this.mostrarMensagem("O usuário já foi convidado anteriormente para este ambiente.");
+        }else{
+          this.notificacaoService.salvar(notificacao).subscribe(() => {
+            this.mostrarMensagem("Solicitação ao usuário enviada com sucesso.");
+            this.carregarUsuarios();
+          })
+        }
       })
     }
   }

@@ -10,7 +10,6 @@ export class Ambiente{
   criador?: Usuario;
   usuarios?: Usuario[];
   imagens?: Imagem[];
-
 }
 
 export class AmbienteDTO {

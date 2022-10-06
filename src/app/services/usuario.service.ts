@@ -40,6 +40,12 @@ export class UsuarioService {
     return this.http.get<Usuario[]>(this.resourceUrl+"/search", {params});
   }
 
+  findByLogin(login: string) : Observable<Usuario>{
+    let params: HttpParams = new HttpParams();
+    params = params.append("login", login);
+    return this.http.get<Usuario>(this.resourceUrl+"/login", {params});
+  }
+
   adicionarUsuarioEmAmbiente(idAmbiente: number, usuario: Usuario): Observable<void>{
     return this.http.put<void>(`${this.resourceUrl}/adicionar-ambiente/${idAmbiente}`, usuario);
   }

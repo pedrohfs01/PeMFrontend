@@ -5,10 +5,12 @@ import { AlertController, MenuController, ToastController, ViewWillEnter } from 
 import { Ambiente } from '../models/ambiente.model';
 import { Comentario, ComentarioSalvarDTO } from '../models/comentario.model';
 import { Imagem, ImagemDTO } from '../models/img.model';
+import { NotificacaoDTO, TipoNotificacao } from '../models/notificacao.model';
 import { Usuario } from '../models/usuario.model';
 import { AmbienteService } from '../services/ambiente.service';
 import { ComentarioService } from '../services/comentario.service';
 import { ImgService } from '../services/img.service';
+import { NotificacaoService } from '../services/notificacao.service';
 import { UsuarioService } from '../services/usuario.service';
 
 @Component({
@@ -34,6 +36,7 @@ export class ImagensPage implements OnInit, ViewWillEnter {
     private usuarioService: UsuarioService,
     private ambienteService: AmbienteService,
     private comentarioService: ComentarioService,
+    private notificacaoService: NotificacaoService,
     private camera: Camera,
     private menu: MenuController,
     private route: ActivatedRoute,
@@ -99,9 +102,9 @@ export class ImagensPage implements OnInit, ViewWillEnter {
           this.imagemUpload.ambienteId = this.ambienteId;
           this.imagemUpload.autorId = this.usuario.id;
           this.imgService.uploadImg(this.img, this.imagemUpload).subscribe(response => {
-            this.mostrarMensagem("Imagem salva com sucesso!");
+            this.mostrarMensagem("Momento enviado com sucesso!");
           }, (error) => {
-            this.mostrarMensagem("Erro ao fazer upload foto. Tente novamente.")
+            this.mostrarMensagem("Erro ao enviar um momento.")
           }, () => {
             this.carregarFotos();
           })
@@ -127,10 +130,10 @@ export class ImagensPage implements OnInit, ViewWillEnter {
           handler: () => {
             this.imgService.deleteImage(id).subscribe(response => {
               this.mostrarMensagem("Imagem deletada com sucesso!");
-            }, () => {},
-            () => {
-              this.carregarFotos();
-            });
+            }, () => { },
+              () => {
+                this.carregarFotos();
+              });
           }
         }
 
@@ -201,29 +204,29 @@ export class ImagensPage implements OnInit, ViewWillEnter {
   }
 
 
-  mostrarComentarios(img: Imagem){
+  mostrarComentarios(img: Imagem) {
     img.showComments = img.showComments == undefined ? true : !img.showComments;
     this.novoComentario = new ComentarioSalvarDTO();
   }
 
-  adicionarComentarioImagem(img: Imagem){
-    if(this.novoComentario && this.novoComentario.comentario && this.novoComentario.comentario.length > 5){
+  adicionarComentarioImagem(img: Imagem) {
+    if (this.novoComentario && this.novoComentario.comentario && this.novoComentario.comentario.length > 5) {
       this.novoComentario.autorId = this.usuario.id;
       this.novoComentario.imagemId = img.id;
       this.comentarioService.salvar(this.novoComentario).subscribe(comentario => {
         this.mostrarMensagem("Comentário enviado com sucesso.");
         this.novoComentario = new ComentarioSalvarDTO();
         img.showComments = true;
-      }, () => {}, 
-      () => {
-        this.carregarFotos();
-      })
-    }else{
+      }, () => { },
+        () => {
+          this.carregarFotos();
+        })
+    } else {
       this.mostrarMensagem("Comentário inválido. Escreva um comentário com mais de 5 caracteres.");
-    }    
+    }
   }
 
-  async deletarComentario(comentario: Comentario){
+  async deletarComentario(comentario: Comentario) {
     let alert = await this.alertController.create({
       header: "Confirmar",
       message: "Confirma a exclusão do comentário?",
@@ -238,13 +241,80 @@ export class ImagensPage implements OnInit, ViewWillEnter {
           handler: () => {
             this.comentarioService.deleteById(comentario.id).subscribe(response => {
               this.mostrarMensagem("Deletado com sucesso!");
-            }, () => {},
-            () => {
-              this.carregarFotos();
-            });
+            }, () => { },
+              () => {
+                this.carregarFotos();
+              });
           }
         }
 
+      ]
+    });
+    await alert.present();
+  }
+
+
+  async denunciar(imagem: Imagem) {
+    let alert = await this.alertController.create({
+      header: "Confirmar",
+      message: "Confirma a denúncia deste momento?",
+      inputs: [{
+        name: 'motivo',
+        placeholder: 'Motivo'
+      }],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+          }
+        }, {
+          text: "Confirmar",
+          handler: (data) => {
+            if (imagem) {
+              let notificacao: NotificacaoDTO = new NotificacaoDTO();
+
+              notificacao.aceitavel = true;
+              notificacao.criadorId = this.usuario.id;
+              notificacao.descricao = `O usuário 
+                  ${this.usuario.nome} denunciou o momento do ${imagem.autor.nome}, motivo: '${data.motivo}', deseja excluir?`
+              notificacao.idObjeto = imagem.id;
+              notificacao.tipoNotificacao = TipoNotificacao.DENUNCIA;
+              notificacao.usuarioNotificadoId = this.ambiente.criador.id;
+
+              this.notificacaoService.salvar(notificacao).subscribe(() => {
+                this.mostrarMensagem("Momento denúnciado com sucesso!");
+              })
+
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async sairDoAmbiente() {
+    let alert = await this.alertController.create({
+      header: "Confirmar",
+      message: "Confirma sair deste ambiente?",
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+          }
+        }, {
+          text: "Confirmar",
+          handler: (data) => {
+
+            this.usuarioService.removerUsuarioEmAmbiente(this.ambienteId, this.usuario).subscribe(r => {
+              this.mostrarMensagem("Saída do ambiente executada com sucesso!");
+              this.voltarAmbiente();
+            })
+
+          }
+        }
       ]
     });
     await alert.present();

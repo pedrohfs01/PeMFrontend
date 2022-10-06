@@ -1,6 +1,7 @@
 import { Ambiente } from "./ambiente.model";
 import { Imagem } from "./img.model";
 import { Comentario } from "./comentario.model";
+import { Notificacao } from "./notificacao.model";
 
 export class Usuario{
 
@@ -9,10 +10,11 @@ export class Usuario{
   login?: string;
   senha?: string;
 
-  comentarios?: Comentario[];
-  imagens?: Imagem[];
-  ambientesCriador?: Ambiente[];
-  ambientes?: Ambiente[];
+  comentarios?: Comentario[] = [];
+  imagens?: Imagem[] = [];
+  ambientesCriador?: Ambiente[] = [];
+  ambientes?: Ambiente[] = [];
+  notificacoes?: Notificacao[] = [];
 }
 
 

@@ -2,6 +2,10 @@
   <ion-toolbar color="medium">
     <ion-title>Ambientes</ion-title>
     <ion-buttons slot="primary">
+      <ion-button (click)="abrirNotificacoes()">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-badge slot="end">{{getQuantidadeNotificacao()}}</ion-badge>
+      </ion-button>
       <ion-button (click)="refresh()">
         <ion-icon name="refresh"></ion-icon>
       </ion-button>
@@ -27,5 +31,4 @@
       </ion-card-subtitle>
     </ion-card-header>
   </ion-card>
-
 </ion-content>

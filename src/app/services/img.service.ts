@@ -41,4 +41,8 @@ export class ImgService {
     return this.http.delete(`${environment.baseURL}/api/imagem/${id}`);
   }
 
+  findImageById(id: number): Observable<Imagem> {
+    return this.http.get<Imagem>(`${environment.baseURL}/api/imagem/${id}`);
+  }
+
 }

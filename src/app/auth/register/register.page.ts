@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -19,33 +19,38 @@ export class RegisterPage implements OnInit {
     private usuarioService: UsuarioService,
     private toastController: ToastController,
     private fb: FormBuilder) {
-      this.criarFormularioUsuario();
+    this.criarFormularioUsuario();
 
   }
 
   ngOnInit() {
   }
 
-  criarFormularioUsuario(){
+  criarFormularioUsuario() {
     this.form = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       login: ['', [Validators.required, Validators.minLength(3)]],
-      senha: ['', [Validators.required, Validators.minLength(3)]]
+      senha: ['', [Validators.required, Validators.minLength(5), this.patternValidator()]]
     });
   }
 
   cadastrar() {
     this.usuario = this.form.value;
-    this.usuarioService.registrar(this.usuario).subscribe(response => {
-      this.mostrarMensagem("Registro efetuado com sucesso.");
-      this.router.navigate(["/login"]);
-    }, (error) => {
-      this.mostrarMensagem("Erro ao tentar registrar.");
-    });
-
+    this.usuarioService.findByLogin(this.usuario.login).subscribe(r => {
+      if (r === null || r === undefined) {
+        this.usuarioService.registrar(this.usuario).subscribe(response => {
+          this.mostrarMensagem("Registro efetuado com sucesso.");
+          this.router.navigate(["/login"]);
+        }, (error) => {
+          this.mostrarMensagem("Erro ao tentar registrar.");
+        });
+      }else{
+        this.mostrarMensagem("Já existe um usuário com esse login.");
+      }
+    })
   }
 
-  async mostrarMensagem(msg: string){
+  async mostrarMensagem(msg: string) {
     const toast = await this.toastController.create({
       message: msg,
       duration: 2000
@@ -55,5 +60,16 @@ export class RegisterPage implements OnInit {
 
   voltar() {
     this.router.navigate(["/login"]);
+  }
+
+  patternValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (!control.value) {
+        return null;
+      }
+      const regex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z]).{6,}$');
+      const valid = regex.test(control.value);
+      return valid ? null : { invalidPassword: true };
+    };
   }
 }

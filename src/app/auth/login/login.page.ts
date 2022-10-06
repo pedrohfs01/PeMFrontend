@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { ToastController, ViewWillEnter } from '@ionic/angular';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { CredenciaisDTO } from '../../models/usuario.model';
 import { StorageService } from '../../services/storage.service';
@@ -11,7 +11,7 @@ import { StorageService } from '../../services/storage.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, ViewWillEnter {
 
   usuario: CredenciaisDTO = new CredenciaisDTO();
 
@@ -22,6 +22,11 @@ export class LoginPage implements OnInit {
     private toastController: ToastController,
     private storageService: StorageService,
     private fb: FormBuilder) { }
+
+
+  ionViewWillEnter(): void {
+    this.criarFormularioLogin();
+  }
 
   ngOnInit() {
     this.criarFormularioLogin();
@@ -39,11 +44,11 @@ export class LoginPage implements OnInit {
     this.usuario = this.form.value;
 
     this.usuarioService.login(this.usuario).subscribe(response => {
-      this.mostrarMensagem("Login efetuado com sucesso!");
+      this.mostrarMensagem("Sucesso ao logar.");
       this.storageService.setLocalUser(this.usuario);
       this.router.navigate(["/ambientes"]);
     }, (error) => {
-      this.mostrarMensagem("Dados inválidos, tente novamente.");
+      this.mostrarMensagem("Usuário não encontrado.");
     })
   }
 

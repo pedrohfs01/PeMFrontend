@@ -19,6 +19,10 @@
         <ion-icon name="trash"></ion-icon>
         Excluir ambiente
       </ion-item>
+      <ion-item *ngIf="ambiente?.criador?.id !== usuario?.id" (click)="sairDoAmbiente()">
+        <ion-icon name="log-out-outline"></ion-icon>
+        Sair do ambiente
+      </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -56,6 +60,8 @@
           </ion-text>
           <ion-icon *ngIf="usuario?.login === foto?.autor?.login" (click)="removerFoto(foto.id)" name="trash" slot="end"
             color="danger"></ion-icon>
+          <ion-icon *ngIf="usuario?.login !== foto?.autor?.login" (click)="denunciar(foto)" name="sad-outline"
+            slot="end" color="danger"></ion-icon>
         </ion-item>
       </ion-card-title>
       <ion-card-content>

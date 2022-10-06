@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AmbientesPageRoutingModule } from './ambientes-routing.module';
 
 import { AmbientesPage } from './ambientes.page';
+import { NotificacoesModalComponent } from './notificacoes-modal/notificacoes-modal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { AmbientesPage } from './ambientes.page';
     IonicModule,
     AmbientesPageRoutingModule
   ],
-  declarations: [AmbientesPage]
+  declarations: [AmbientesPage, NotificacoesModalComponent]
 })
 export class AmbientesPageModule {}

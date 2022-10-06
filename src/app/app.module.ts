@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImgService } from './services/img.service';
 import { UsuarioService } from './services/usuario.service';
 import { ComentarioService } from './services/comentario.service';
+import { NotificacaoService } from './services/notificacao.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,7 +41,8 @@ import { ComentarioService } from './services/comentario.service';
     AmbienteService,
     StorageService,
     Camera,
-    ComentarioService
+    ComentarioService,
+    NotificacaoService
   ],
   bootstrap: [AppComponent],
 })
