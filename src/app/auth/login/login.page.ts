@@ -45,6 +45,7 @@ export class LoginPage implements OnInit, ViewWillEnter {
 
     this.usuarioService.login(this.usuario).subscribe(response => {
       this.mostrarMensagem("Sucesso ao logar.");
+      this.usuario.senha = null;
       this.storageService.setLocalUser(this.usuario);
       this.router.navigate(["/ambientes"]);
     }, (error) => {
