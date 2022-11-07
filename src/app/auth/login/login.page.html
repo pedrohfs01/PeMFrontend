@@ -19,7 +19,13 @@
     </div>
 
     <ion-button [disabled]="!form.valid" type="submit" share="round" color="primary" expand="block">Login</ion-button>
+
+    
+    <ion-button (click)="esqueciSenha()" type="button" expand="block" color="secondary" class="button-group">Esqueci minha senha
+    </ion-button>
   </form>
-  <ion-button (click)="registrar()" type="button" expand="block" color="danger" class="button-group">Registre-se
-  </ion-button>
+  <div class="row">
+    <ion-button (click)="registrar()" type="button" expand="block" color="danger" class="button-group">Registre-se
+    </ion-button>
+  </div>
 </ion-content>

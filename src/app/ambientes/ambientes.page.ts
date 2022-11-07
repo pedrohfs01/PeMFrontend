@@ -113,4 +113,8 @@ export class AmbientesPage implements OnInit, ViewWillEnter {
 
     return await modal.present();
   }
+
+  alterarSenha(){
+    this.router.navigate(["/alterar-senha"]);
+  }
 }

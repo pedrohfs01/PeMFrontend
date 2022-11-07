@@ -2,6 +2,9 @@
   <ion-toolbar color="medium">
     <ion-title>Ambientes</ion-title>
     <ion-buttons slot="primary">
+      <ion-button (click)="alterarSenha()">
+        <ion-icon name="build-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="abrirNotificacoes()">
         <ion-icon name="notifications-outline"></ion-icon>
         <ion-badge slot="end">{{getQuantidadeNotificacao()}}</ion-badge>

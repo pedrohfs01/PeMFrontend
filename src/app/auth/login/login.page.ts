@@ -36,7 +36,7 @@ export class LoginPage implements OnInit, ViewWillEnter {
   criarFormularioLogin(){
     this.form = this.fb.group({
       login: ['', [Validators.required, Validators.minLength(3)]],
-      senha: ['', [Validators.required, Validators.minLength(3)]]
+      senha: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
@@ -49,7 +49,7 @@ export class LoginPage implements OnInit, ViewWillEnter {
       this.storageService.setLocalUser(this.usuario);
       this.router.navigate(["/ambientes"]);
     }, (error) => {
-      this.mostrarMensagem("Usuário não encontrado.");
+      this.mostrarMensagem("Dados incorretos.");
     })
   }
 
@@ -63,5 +63,15 @@ export class LoginPage implements OnInit, ViewWillEnter {
 
   registrar(){
     this.router.navigate(["/register"])
+  }
+  
+  esqueciSenha(){
+   if(this.form.controls['login']?.errors?.required == true){
+    return this.mostrarMensagem("Para recuperar a senha precisa ser inserido um login.");
+   }
+   this.usuarioService.esqueciMinhaSenha(this.form.controls['login']?.value)
+        .subscribe(response => {
+          this.mostrarMensagem("Nova senha foi enviada via e-mail, caso exista uma conta com este login.")
+        });
   }
 }

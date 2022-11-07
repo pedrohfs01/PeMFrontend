@@ -22,6 +22,12 @@
       </ion-item>
 
       <ion-item>
+        <ion-label position="floating">E-mail*</ion-label>
+        <ion-input formControlName="email" type="text"></ion-input>
+        <p class="danger" *ngIf="form.controls.email.dirty && form.controls.email.errors" slot="end">Valor inválido</p>
+      </ion-item>
+
+      <ion-item>
         <ion-label position="floating">Login*</ion-label>
         <ion-input formControlName="login" type="text"></ion-input>
         <p class="danger" *ngIf="form.controls.login.dirty && form.controls.login.errors" slot="end">Valor inválido</p>
@@ -30,12 +36,18 @@
       <ion-item>
         <ion-label position="floating">Senha*</ion-label>
         <ion-input formControlName="senha" type="password"></ion-input>
-        <p class="danger" *ngIf="form.controls.senha.dirty && form.controls.senha.errors" slot="end">Valor inválido</p>
+        <p class="danger" *ngIf="form.controls.senha.dirty && form.controls.senha.errors?.required" slot="end">Campo
+          obrigatório</p>
       </ion-item>
 
 
     </div>
+
+    <p class="danger" *ngIf="form.controls.senha.dirty && form.controls.senha.errors?.invalidPassword" slot="end">Senha
+      fraca. (Utilize no mínimo 6 dígitos, 1 letra maiúscula e 1 minúscula)</p>
+      
     <ion-button [disabled]="!form.valid" (click)="cadastrar()" color="medium" expand="full">Cadastrar</ion-button>
   </form>
+
 
 </ion-content>

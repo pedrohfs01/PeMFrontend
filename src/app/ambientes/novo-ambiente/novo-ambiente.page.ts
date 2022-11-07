@@ -56,11 +56,8 @@ export class NovoAmbientePage implements OnInit {
       this.mostrarMensagem("Ambiente criado com sucesso!");
       this.router.navigate(["/ambientes"]);
     }, error => {
-      this.mostrarMensagem("Erro ao criar ambiente!");
+      this.mostrarMensagem("Erro ao criar ambiente! Confira se o limite de ambientes foi atingido.");
     })
-
-
-
   }
 
   async mostrarMensagem(msg: string){

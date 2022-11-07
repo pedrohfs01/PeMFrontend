@@ -54,9 +54,16 @@ export class UsuarioService {
     return this.http.put<void>(`${this.resourceUrl}/remover-ambiente/${idAmbiente}`, usuario);
   }
 
-
   logout(){
     this.storageService.setLocalUser(null);
     this.router.navigate(["/login"])
+  }
+
+  esqueciMinhaSenha(login: string) {
+    return this.http.get<void>(this.resourceUrl + "/esqueci-minha-senha/"+login);
+  }
+  
+  alterarSenha(dto: any) {
+    return this.http.put<void>(this.resourceUrl + "/alterar-senha", dto);
   }
 }

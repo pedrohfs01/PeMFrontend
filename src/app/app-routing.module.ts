@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'ambientes',
     loadChildren: () => import('./ambientes/ambientes.module').then( m => m.AmbientesPageModule)
   },
+  {
+    path: 'alterar-senha',
+    loadChildren: () => import('./auth/alterar-senha/alterar-senha.module').then( m => m.AlterarSenhaModule)
+  },
 ];
 
 @NgModule({

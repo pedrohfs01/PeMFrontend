@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { ToastController, ViewWillEnter } from '@ionic/angular';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Usuario } from '../../models/usuario.model';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss'],
+  selector: 'app-alterar-senha',
+  templateUrl: './alterar-senha.page.html',
+  styleUrls: ['./alterar-senha.page.scss'],
 })
-export class RegisterPage implements OnInit {
+export class AlterarSenhaPage implements OnInit, ViewWillEnter {
 
   form: FormGroup;
   usuario: Usuario = new Usuario();
@@ -19,36 +19,39 @@ export class RegisterPage implements OnInit {
     private usuarioService: UsuarioService,
     private toastController: ToastController,
     private fb: FormBuilder) {
-    this.criarFormularioUsuario();
+      this.criarFormularioSenha();
 
+  }
+
+  ionViewWillEnter(): void {
+    this.criarFormularioSenha();
+    this.usuarioService.getUsuarioLogado().subscribe(response => {
+      this.usuario = response;
+    })
   }
 
   ngOnInit() {
   }
 
-  criarFormularioUsuario() {
+  criarFormularioSenha() {
     this.form = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
-      login: ['', [Validators.required, Validators.minLength(3)]],
-      senha: ['', [Validators.required, Validators.minLength(5), this.patternValidator()]]
+      senhaAtual: ['', [Validators.required, Validators.minLength(5)]],
+      novaSenha: ['', [Validators.required, Validators.minLength(5), this.patternValidator()]]
     });
   }
 
-  cadastrar() {
-    this.usuario = this.form.value;
-    this.usuarioService.findByLogin(this.usuario.login).subscribe(r => {
-      if (r === null || r === undefined) {
-        this.usuarioService.registrar(this.usuario).subscribe(response => {
-          this.mostrarMensagem("Registro efetuado com sucesso.");
-          this.router.navigate(["/login"]);
-        }, (error) => {
-          this.mostrarMensagem("Erro ao tentar registrar.");
-        });
-      }else{
-        this.mostrarMensagem("Já existe um usuário com esse login.");
-      }
+  alterarSenha() {
+    this.usuarioService.alterarSenha({
+      login: this.usuario.login,
+      novaSenha: this.form.controls['novaSenha']?.value,
+      senhaAtual: this.form.controls['senhaAtual'].value
     })
+      .subscribe(r => {
+        this.mostrarMensagem("Senha alterada com sucesso.");
+        this.voltar();
+      }, (error) => {
+        this.mostrarMensagem("Erro ao tentar alterar a senha, verifique a senha atual.");
+      })
   }
 
   async mostrarMensagem(msg: string) {
@@ -60,7 +63,7 @@ export class RegisterPage implements OnInit {
   }
 
   voltar() {
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/ambientes"]);
   }
 
   patternValidator(): ValidatorFn {
