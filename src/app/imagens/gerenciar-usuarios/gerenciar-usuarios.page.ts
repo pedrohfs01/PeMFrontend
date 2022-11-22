@@ -22,6 +22,8 @@ export class GerenciarUsuariosPage implements OnInit, ViewWillEnter {
 
   usuarioLogado: Usuario;
 
+  nomeAmbiente: string = "";
+
   @ViewChild(IonSearchbar) ionSearchBarComponent: IonSearchbar;
 
   constructor(private router: Router,
@@ -54,6 +56,7 @@ export class GerenciarUsuariosPage implements OnInit, ViewWillEnter {
       if (params['id']) {
         this.ambienteId = params['id'];
         this.ambienteService.getById(this.ambienteId).subscribe(response => {
+          this.nomeAmbiente = response.nome;
           this.usuarios = [];
           this.usuariosInclusos = response.usuarios;
           this.usuarioCriador = response.criador;
@@ -95,7 +98,7 @@ export class GerenciarUsuariosPage implements OnInit, ViewWillEnter {
       notificacao.usuarioNotificadoId = usuario.id;
       notificacao.idObjeto = this.ambienteId;
       notificacao.tipoNotificacao = TipoNotificacao.CONVITE;
-      notificacao.descricao = "O usuário "+this.usuarioLogado.nome+" te convidou para um ambiente, deseja aceitar? ";
+      notificacao.descricao = "O usuário "+this.usuarioLogado.nome+" te convidou para o ambiente "+this.nomeAmbiente+", deseja aceitar? ";
 
       this.notificacaoService.verificarSeExisteNotificacao(notificacao).subscribe(response => {
         if(response == true){
