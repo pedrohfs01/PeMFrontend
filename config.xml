@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="br.com.pedrofernandes" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>PeM Moments</name>
-    <description>Moments</description>
+    <name>Galeria de Momentos</name>
+    <description>Galeria de Momentos</description>
     <author email="pedexg@gmail.com" href="http://github.com/pedrohfs01">Pedro Fernandes</author>
     <content src="index.html" />
     <access origin="*" />
